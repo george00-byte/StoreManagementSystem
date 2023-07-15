@@ -257,6 +257,18 @@ header ul.ls-sticky li a:active
     color:#0fa9db;
 }
 
+header ul li sup
+{
+    border-radius:50%;
+    background:red;
+    align-items:center;
+    color:white;
+    align-content:center;
+    text-align:center;
+    padding:0.3em;
+    border:1px solid red;
+}
+
 
 
 header ul li ul 

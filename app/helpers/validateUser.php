@@ -21,6 +21,12 @@ function validateUser($user)
 
         }
 
+         if(empty($user['department']))
+        {
+            array_push($errors,'Department is required');
+
+        }
+
 
 
         if($user['password'] !== $_POST['passwordConf'])

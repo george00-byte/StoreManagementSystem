@@ -6,6 +6,7 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
 storeOnly();
 
 
+
 ?>
 
 
@@ -78,7 +79,7 @@ storeOnly();
                      <input type="hidden" name="quantity"  value="<?php echo $total ?>" />
                      <input type="hidden" name="remaining"  value="<?php echo $remaining ?>" />
                      <input type="hidden" name="item_id"  value="<?php echo $item_id ?>" />
-                      <input type="hidden" name="issuedBy" id="subject"  class="text-input" value="<?php echo $_SESSION['username']; ?>" />
+                      <input type="hidden" name="issuedBy" id="subject"  class="text-input" value="<?php echo $_SESSION['username']. ' ' . $_SESSION['secondname']; ?>"/>
 
 
                     <div>
@@ -127,6 +128,12 @@ storeOnly();
 
 
                     </div>
+
+                    <div>
+                        <button name="message-User" class="btn btn-big">Send message of Approval</button>
+
+                    </div>
+
 
                     <div>
                         <button name="issue-inventory" class="btn btn-big">Finish</button>

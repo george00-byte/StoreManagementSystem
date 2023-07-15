@@ -3,7 +3,8 @@
 include("../../path.php");
 include(ROOT_PATH."/app/controllers/requisition.php");
 include(ROOT_PATH.'/app/helpers/middleware.php');
- managerOnly();
+managerOnly();
+
 
 
 
@@ -91,7 +92,7 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
 
                         <tbody>
 
-                        <?php foreach($requisitions as $key =>$requisition): ?>
+                        <?php foreach($requisitionInDept as $key =>$requisition): ?>
                             <tr>
 
                                 <td><?php echo $key+1 ?> </td>

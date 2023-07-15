@@ -3,7 +3,8 @@
     include("path.php");
     include(ROOT_PATH."/app/controllers/users.php");
     guestOnly();
-
+    $tableDepartment='department';
+    $departments=selectAll($tableDepartment);
 
 
 ?>
@@ -61,8 +62,13 @@
 
 
             <div>
-                <label>Username</label>
+                <label>First Name</label>
                 <input type="text" name="username" value="<?php echo $username; ?>" class="text-input" />
+            </div>
+
+             <div>
+                <label>Second Name</label>
+                <input type="text" name="secondname" value="<?php echo $secondname; ?>" class="text-input" />
             </div>
 
 
@@ -70,6 +76,19 @@
                 <label>Email</label>
                 <input type="email" name="email" value="<?php echo $email; ?>" class="text-input" />
             </div>
+
+            <div>
+            <label>Department</label>
+            <select name="department"  id="items"  class="select-dropdown text-input"  value="<?php echo  $department?>"  > 
+                <option value="" selected disable ></option>
+                <?php foreach($departments as $key=>$department):?>
+                    <option value="<?php echo  $department['department'];?>"> <?php echo $department['department'] ?> </option>
+                <?php endforeach; ?>
+
+            </select>
+            </div>
+
+
 
 
             <div>

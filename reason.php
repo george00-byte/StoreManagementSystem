@@ -91,7 +91,7 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
                    
 
                      <div>
-                        <label>Reason For Requisition</label>
+                        <label>Reason For Decline</label>
                        <textarea id="message" &nbsp name="reason" readonly > <?php echo htmlentities($declineReason);  ?></textarea>
 
                     </div>

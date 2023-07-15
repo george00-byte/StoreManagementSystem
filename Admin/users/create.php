@@ -2,6 +2,9 @@
 
 include("../../path.php");
 include(ROOT_PATH."/app/controllers/users.php");
+
+$tableDepartment='department';
+$departments=selectAll($tableDepartment);
 adminOnly();
 
 
@@ -71,15 +74,34 @@ adminOnly();
                     <!-- // Display of errors -->
 
                     <div>
-                        <label>Username</label>
+                        <label>First Name</label>
                         <input type="text" name="username" class="text-input" value="<?php echo $username; ?>"  />
                     </div>
+
+                     <div>
+                        <label>Second Name</label>
+                        <input type="text" name="secondname" class="text-input" value="<?php echo $secondname; ?>"  />
+                    </div>
+
 
 
                     <div>
                         <label>Email</label>
                         <input type="email" name="email" class="text-input" value="<?php echo $email; ?>"/>
                     </div>
+
+                      <div>
+                        <label>Department</label>
+                        <select name="department"  id="items"  class="select-dropdown text-input">
+                         <option value="" selected disable ></option>
+                          <?php foreach($departments as $key=>$department):?>
+                                
+                            <option value="<?php echo  $department['department'];?>"> <?php echo $department['department'] ?> </option>
+                            
+                          <?php endforeach; ?>
+
+                        </select>
+                      </div>
 
 
                     <div>
@@ -106,7 +128,7 @@ adminOnly();
                         <label>
                             
                         <?php if(isset($admin)):  ?>
-                                <input type="checkbox" name="admin"  checked>
+                                <input type="checkbox" name="admin"  >
                                 Admin
                         <?php else: ?>
 
@@ -119,7 +141,7 @@ adminOnly();
                     </div>
 
                     <div>
-                        <button name="create-inventory" class="btn btn-big">Add User</button>
+                        <button name="register-btn" class="btn btn-big">Add User</button>
 
                     </div>
 

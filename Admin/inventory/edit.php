@@ -75,7 +75,7 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
                     <!-- // Display of errors -->
 
                      <input type="hidden" name="id"  value="<?php echo $id ?>" />
-                     <input type="hidden" name="approvedBy" id="subject"  class="text-input" value="<?php echo $_SESSION['username']; ?>" />
+                     <input type="hidden" name="approvedBy" id="subject"  class="text-input" value="<?php echo $_SESSION['username']. ' ' . $_SESSION['secondname']; ?>" />
                     
 
                             

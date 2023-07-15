@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Admin",
+    "\\Admin\\store",
+    "\\app",
+    "\\assets"
   ],
+  "SelectedNode": "\\Admin\\store\\index.php",
   "PreviewInSolutionExplorer": false
 }

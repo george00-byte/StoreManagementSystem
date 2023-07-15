@@ -5,13 +5,13 @@ include("../path.php");
 include(ROOT_PATH."../app/controllers/users.php");
 
 
-
-
+adminOnly();
 $tableUsers='users';
 
 $users = selectAll($tableUsers);
 
 $adminPic= selectOne($tableUsers,['username'=>$_SESSION['username']]);
+
 
 $table='requisition';
 $requisitions = selectAll($table);
@@ -25,12 +25,17 @@ $CountItemsInProgress=getNumberOfInventoryInProgress();
 
 $numberOfOrders=getNumberOfInventoryOrdered();
 
+$dept=$_SESSION['department'];
+$requisitionInDept=selectAllInDepartment($dept);
+
+$getNumberOfInventoryOrderedInDept=getNumberOfInventoryOrderedInDept($dept);
+$getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
+
+
 
 
 
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -157,7 +162,7 @@ $numberOfOrders=getNumberOfInventoryOrdered();
             <div class="user-wrapper">
 
             <?php if(isset($_SESSION['id'])): ?>
-                <img src="<?php echo BASE_URL."../assets/images/".$adminPic['image']; ?>" width="30px" height="30px" />
+                <img src="<?php echo BASE_URL."../assets/images/profile.jpg"; ?>" width="30px" height="30px" />
 
                 <div class="user-info">
                     <h4> <?php echo $_SESSION['username']?> </h4>
@@ -195,11 +200,17 @@ $numberOfOrders=getNumberOfInventoryOrdered();
 
 
                 <div class="card-single">
-                    <div>
-                        <h1><?php echo $numberOfOrders; ?></h1>
-                        <span>Orders</span>
-                    </div>
-
+                    <?php if($_SESSION['admin']===1): ?>
+                        <div>
+                            <h1><?php echo $numberOfOrders; ?></h1>
+                            <span>Orders</span>
+                        </div>
+                    <?php else:?>
+                            <div>
+                            <h1><?php echo $getNumberOfInventoryOrderedInDept ?></h1>
+                            <span>Orders</span>
+                        </div>
+                    <?php endif; ?>
                     <div>
                         <span class="las la-clipboard"></span>
                     </div>
@@ -207,11 +218,17 @@ $numberOfOrders=getNumberOfInventoryOrdered();
 
 
                 <div class="card-single">
+                <?php if($_SESSION['admin']===1): ?>
                     <div>
                         <h1><?php echo $CountItemsInProgress?></h1>
                         <span>Orders in progress</span>
                     </div>
-
+                  <?php else:?>
+                     <div>
+                        <h1><?php echo $getNumberOfInventoryInProgressDept?></h1>
+                        <span>Orders in progress</span>
+                    </div>
+                 <?php endif; ?>
                     <div>
                         <span class="las la-shopping-bag"></span>
                     </div>
@@ -261,21 +278,41 @@ $numberOfOrders=getNumberOfInventoryOrdered();
 
                                     <tbody>
 
-                                        <?php foreach($requisitions as $requisition ):?>
-                                            <tr>
-                                                <td> <?php echo $requisition['item']; ?> </td>
-                                                <td><?php echo $requisition['quantity']; ?> </td>
+                                       <?php if($_SESSION['admin']===2): ?>
+                                            <?php foreach($requisitionInDept as $requisition ):?>
+                                                <tr>
+                                                    <td> <?php echo $requisition['item']; ?> </td>
+                                                    <td><?php echo $requisition['quantity']; ?> </td>
 
-                                                <?php if($requisition['issue']): ?>
-                                                    <td><span class="status green"></span>issued</td>
+                                                    <?php if($requisition['issue']): ?>
+                                                        <td><span class="status green"></span>issued</td>
 
-                                                    <?php else: ?>
-                                                     <td><span class="status orange"></span>In progress</td>
+                                                        <?php else: ?>
+                                                         <td><span class="status orange"></span>In progress</td>
 
-                                                <?php endif; ?>
+                                                    <?php endif; ?>
 
-                                            </tr>
-                                         <?php endforeach; ?>
+                                                </tr>
+                                             <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <?php foreach($requisitions as $requisition ):?>
+                                                <tr>
+                                                    <td> <?php echo $requisition['item']; ?> </td>
+                                                    <td><?php echo $requisition['quantity']; ?> </td>
+
+                                                    <?php if($requisition['issue']): ?>
+                                                        <td><span class="status green"></span>issued</td>
+
+                                                        <?php else: ?>
+                                                         <td><span class="status orange"></span>In progress</td>
+
+                                                    <?php endif; ?>
+
+                                                </tr>
+                                             <?php endforeach; ?>
+
+
+                                        <?php endif; ?>
 
                                       
 

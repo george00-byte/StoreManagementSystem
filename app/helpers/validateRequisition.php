@@ -4,11 +4,6 @@ function validateRequisition($requisition)
 {
 	 $errors = array();
 
-        if(empty($requisition['item_id']))
-        {
-            array_push($errors,'Item is required');
-
-        }
 
         if(empty($requisition['item']))
         {
@@ -111,6 +106,27 @@ function validateAddInventory($item)
         return $errors;
 
 }
+
+
+
+
+
+function  validateCreateDepartment($department)
+{
+     $errors = array();
+
+        if(empty($department['department']))
+        {
+            array_push($errors,'department value is required');
+
+        }
+
+      
+
+        return $errors;
+
+}
+
 
 
 

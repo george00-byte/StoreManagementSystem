@@ -6,7 +6,6 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
 storeOnly();
 
 
-
 ?>
 
 
@@ -59,6 +58,8 @@ storeOnly();
             <div class="button-group">
                 <a href="create.php" class="btn btn-big">Create Inventory</a>
                 <a href="remaining.php" class="btn btn-big">Add Inventory </a>
+                <br> <br> <br>
+                 <a href="pdf.php" class="btn btn-big">Print</a>
             </div>
 
             <div class="content">
@@ -80,7 +81,7 @@ storeOnly();
                                 <th>Department</th>
                                 <th>Date</th>
                                 <th>Reason</th>
-                                 <th>Approved</th>
+                                 <th>Approved by</th>
                                   <th>Issued</th>
                                
                                 
@@ -91,7 +92,6 @@ storeOnly();
                         <tbody>
 
                      
-
                         <?php foreach($requisitions as $key =>$requisition): ?>
                             <tr>
 
@@ -103,18 +103,16 @@ storeOnly();
                                 <td><?php echo date('F j, Y', strtotime($requisition['created-at'])); ?> </td>
                                 <td> <?php echo html_entity_decode(substr($requisition['reason'],0,5)."..."); ?></td>
 
+                               
+                                <td><?php echo   $requisition['approvedBy']  ?> </td>
                                 
-
-                                 <?php if($requisition['approve'] == 1): ?>
-                                    <td><?php echo "Yes"?> </td>
-                                        <?php else: ?>
-                                    <td><?php echo "No"?> </td>
-                                 <?php endif; ?>
 
                                     <?php if($requisition['issue'] == 1): ?>
                                         <td><a href="edit.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit">Issued</a></td>
+                                         <td><a href="singlePdf.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit">Print</a></td>
                                     <?php else: ?>
-                                        <td><a href="edit.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit">Issue</a></td>
+                                        <td><a href="edit.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit">pending</a></td>
+                                         <td><a href="index.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit">Print</a></td>
                                     <?php endif; ?>
                                
                                 <td><a href="index.php?delete_id=<?php echo $requisition['id'] ?>" class="delete" onclick="return checkDelete()">delete</a></td>

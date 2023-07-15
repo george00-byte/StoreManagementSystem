@@ -14,17 +14,29 @@
 
    $id="";
    $username ='';
+   $secondname='';
+   $department ='';
    $email = '';
    $password = '';
    $passwordConf ='';
+   $department ="";
    $admin="";
+
 
    function loginUser($user)
    {
         $_SESSION['id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
+         $_SESSION['secondname'] = $user['secondname'];
         $_SESSION['admin']= $user['admin'];
         $_SESSION['email']=$user['email'];
+       
+        
+        $department = getDepartment($_SESSION['id']);
+
+        $_SESSION['department']= $department;
+
+
         $_SESSION['message']= 'you are now logged in';
         $_SESSION['type']= 'succes';
       
@@ -40,7 +52,7 @@
 
         else 
         {
-	            header('location: '.BASE_URL.'/index.php');
+	        header('location: '.BASE_URL.'/index.php');
         }
 
         exit();
@@ -66,7 +78,7 @@
             $user_id=create($table,$_POST);
             $user=selectOne($table,['id'=>$user_id]);
 
-            
+
             //log in user
             loginUser($user);
             
@@ -76,9 +88,11 @@
         {
            
 	       $username =$_POST['username'];
+           $secondname =$_POST['secondname'];
            $email = $_POST['email'];
            $password = $_POST['password'];
            $passwordConf =$_POST['passwordConf'];
+           $department = $_POST['department'];
 
           
 
@@ -120,8 +134,6 @@
          $email =$_POST['email'];
          $password=$_POST['password'];
 	
-
-
     }
 
 
@@ -165,13 +177,7 @@
             if(isset($_POST['admin']))
             {
                 $_POST['admin']=1;
-                $user_id=create($table,$_POST);
-                $user= selectOne($table,['id'=>$user_id]);
-
-                $_SESSION['type']="succes";
-                $_SESSION['message']="Admin user created succesfully";
-                header('location: '.BASE_URL."/admin/users/index.php ");
-                exit();
+                db($_POST);
                
 
             }
@@ -194,6 +200,7 @@
         {
 	       
             $username=$_POST['username'];
+            $secondname =$_POST['secondname'];
             $email=$_POST['email'];
             $password=$_POST['password'];
             $passwordConf =$_POST['passwordConf'];
@@ -214,7 +221,10 @@
       $id=$user['id'];
       $admin=$user['admin'];
       $username=$user['username'];
+      $secondname =$user['secondname'];
       $email= $user['email'];
+      $department=$user['department'];
+
 
 
        
@@ -226,29 +236,8 @@
     {
         
         $errors=validateUser($_POST);
-       
-        if(!empty($_FILES['image']['name']) && isset($_POST['admin']))
-	    {
-		    $image_name=time().'_'.$_FILES['image']['name'];
-		    $destination=ROOT_PATH."/assets/images/".$image_name;
 
-		    $result=move_uploaded_file($_FILES['image']['tmp_name'],$destination);
-
-		    if($result)
-		    {
-			    $_POST['image']=$image_name;
-		    }
-		    else 
-		    {
-			    array_push($errors,"Failed to upload image");
-            }
-
-		
-	    }
-	    else if(empty($_FILES['image']['name']) && isset($_POST['admin']))
-	    {
-		    array_push($errors,"User image required");
-	    }
+	  
 
         $id=$_POST['id'];
 
@@ -258,7 +247,6 @@
            unset($_POST['edit-user'],$_POST['passwordConf'],$_POST['id']);
            $_POST['password']=password_hash($_POST['password'],PASSWORD_DEFAULT);
 
-           $_POST['admin']=isset($_POST['admin'])?1:0;
            $count = update($table,$id,$_POST);
 
            $_SESSION['type']="succes";
@@ -273,7 +261,8 @@
         else
         {
             $username=$_POST['username'];
-            $admin=isset($_POST['admin'])?1:0;
+            $secondname=$_POST['secondname'];
+            $admin=$_POST['admin'];
             $email=$_POST['email'];
             $password=$_POST['password'];
             $passwordConf=$_POST['passwordConf'];

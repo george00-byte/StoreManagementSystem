@@ -2,7 +2,10 @@
 
 include("../../path.php");
 include(ROOT_PATH."/app/controllers/users.php");
+$tableDepartment='department';
+$departments=selectAll($tableDepartment);
 adminOnly();
+
 
 
 ?>
@@ -74,9 +77,15 @@ adminOnly();
 
                     <input type="hidden" name="id"  value="<?php echo $id ?>" />
 
+                  
                     <div>
-                        <label>Username</label>
+                        <label>FirstName</label>
                         <input type="text" name="username" class="text-input" value="<?php echo $username; ?>"  />
+                    </div>
+
+                      <div>
+                        <label>Second Name</label>
+                        <input type="text" name="secondname" class="text-input" value="<?php echo $secondname; ?>"  />
                     </div>
 
 
@@ -85,16 +94,27 @@ adminOnly();
                         <input type="email" name="email" class="text-input" value="<?php echo $email; ?>"/>
                     </div>
 
+                      <div>
+                        <label>Department</label>
+                        <select name="department"  id="items"  class="select-dropdown text-input"  value="<?php echo  $department?>"  > 
+                         <option value="" selected disable ></option>
+                          <?php foreach($departments as $key=>$department):?>
+                               <option value="<?php echo  $department['department'];?>"> <?php echo $department['department'] ?> </option>
+                          <?php endforeach; ?>
+
+                        </select>
+                      </div>
+
 
                     <div>
                         <label>Password</label>
-                        <input type="password" name="password" class="text-input" value="<?php echo $password; ?>" />
+                        <input type="password" name="password" class="text-input" value="<?php echo $password ?>" />
                     </div>
 
 
                     <div>
                         <label>Password Confirmation</label>
-                        <input type="password" name="passwordConf" class="text-input" value="<?php echo $passwordConf; ?>" />
+                        <input type="password" name="passwordConf" class="text-input"  value="<?php echo $passwordConf ?>"  />
                     </div>
 
                      <div>
@@ -109,19 +129,15 @@ adminOnly();
                        
                         <label>
                             
-                        <?php if(isset($admin)):  ?>
-                                <input type="checkbox" name="admin"  checked>
-                                Admin
-                        <?php else: ?>
-
-                                <input type="checkbox" name="admin" >
-                                Admin
-                        <?php endif;  ?>
+                      
+                            <input name= "admin" type="number" min=0 max= 20 class="text-input"  value="<?php echo $admin?>" >
+                      
                         </label>
 
 
                     </div>
 
+               
                     <div>
                         <button name="edit-user" class="btn btn-big">Edit User</button>
 

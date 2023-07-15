@@ -302,6 +302,103 @@ function getUniqueOrders($sterm)
 
 
 
+function getUser_id($sterm)
+{
+	$match = $sterm;
+    global $conn;
+
+  
+    $sql = "SELECT user_id FROM requisition WHERE id =?";
+    $stmt = executeQuery($sql, ['id' => $match]);
+
+	$records = $stmt->get_result()->fetch_assoc();
+
+	foreach($records as $record)
+	{
+		$record;
+	}
+	return $record;
+	
+}
+
+
+
+
+function selectAllInDepartment($sterm)
+{
+	$match = $sterm;
+    global $conn;
+
+  
+    $sql = "SELECT * FROM requisition WHERE department =?";
+    $stmt = executeQuery($sql, ['department' => $match]);
+
+	$records = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    return $records;
+}
+
+
+function getDepartment($sterm)
+{
+	$match = $sterm;
+    global $conn;
+
+  
+    $sql = "SELECT department FROM users WHERE id=?";
+    $stmt = executeQuery($sql, ['id' => $match]);
+
+	$records = $stmt->get_result()->fetch_assoc();
+
+	foreach($records as $record)
+	{
+		$record;
+	}
+	return $record;
+	
+}
+
+
+
+
+
+function getMessages($sterm)
+{
+	$match = $sterm;
+    global $conn;
+  
+    $sql = "SELECT * FROM messages WHERE user_id =?";
+    $stmt = executeQuery($sql, ['user_id' => $match]);
+
+	$records = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    return $records;
+
+}
+
+
+
+
+function getCountMessages($sterm)
+{
+	$match = $sterm;
+    global $conn;
+
+  
+    $sql = "SELECT count(message) FROM messages WHERE user_id =? AND status= ? ";
+    $stmt = executeQuery($sql, ['user_id' => $match, 'status'=>0]);
+
+	$records = $stmt->get_result()->fetch_assoc();
+
+	foreach($records as $record)
+	{
+		$record;
+	}
+	return $record;
+
+}
+
+
 
 
 function getNumberOfInventoryInProgress()
@@ -341,11 +438,53 @@ function getNumberOfInventoryOrdered()
 	{
 		$record;
 	}
+	return $record;
 
+}
+
+
+
+
+function getNumberOfInventoryOrderedInDept($sterm)
+{
+	$match = '%' . $sterm . '%';
+	global $conn;
+
+	$sql= "SELECT count(item) FROM requisition WHERE department LIKE ?";
+
+	$stmt = executeQuery($sql,['department'=>$match]);
+	$records = $stmt->get_result()->fetch_assoc();
+	
+	foreach($records as $record)
+	{
+		$record;
+	}
+
+	return $record;
+
+}
+
+
+
+function getNumberOfInventoryInProgressDept($sterm)
+{
+	$match = '%' . $sterm . '%';
+	global $conn;
+
+	$sql= "SELECT count(item) FROM requisition WHERE department Like ? AND ( approve=1 OR approve=0) AND (issue=0)";
+
+	$stmt = executeQuery($sql,['department'=>$match]);
+	$records = $stmt->get_result()->fetch_assoc();
+
+	foreach($records as $record)
+	{
+		$record;
+	}
 	return $record;
 
 
 }
+
 
 
 
@@ -391,6 +530,44 @@ function findRemainingAfterOrder($sterm)
 
 
 
+function findmaxId()
+{
+	global $conn;
+	$sql= "SELECT MAX(id) FROM requisition WHERE approve=? OR approve=0";
+
+	$stmt = executeQuery($sql,['approve'=>1]);
+	$records = $stmt->get_result()->fetch_assoc();
+	
+	foreach($records as $record)
+	{
+		$record;
+	}
+	return $record;
+}
+
+
+
+
+function getItem_id($sterm)
+{
+	$match = $sterm;
+    global $conn;
+
+  
+    $sql = "SELECT id FROM store  WHERE item LIKE ?";
+    $stmt = executeQuery($sql, ['item' => $match]);
+
+	$records = $stmt->get_result()->fetch_assoc();
+
+	foreach($records as $record)
+	{
+		$record;
+	}
+	return $record;
+	
+}
+
+
 
 function searchPosts($sterm)
 {
@@ -411,8 +588,6 @@ function searchPosts($sterm)
 	return $records;
 
 }
-
-
 
 
 

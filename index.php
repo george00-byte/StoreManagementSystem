@@ -12,6 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
  usersOnly();
+ $id = $_SESSION['id'];
+ $messageCount= getCountMessages($id);
+ 
+ $messages=selectOne($tableMessage,['user_id'=>$id]);
+
 
 ?>
 
@@ -74,16 +79,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <ul id="nav-menu" class="ls-sticky">
                         <li> <a href="index.php" class="active">Home</a></li>
+                        <li> <a href="multiple.php" >Choose multiple items</a></li>
                       
                         <li> <a href="https://totalsecuritykenya.com/">Main Site</a></li>
                         <li> <a href="https://totalsecuritykenya.com/who-we-are/">About</a></li>
                         <li> <a href="https://totalsecuritykenya.com/contact-us/">Contact</a></li>
+                       
+
+                        <li> <a href="notifications.php"><i  class="fas fa-envelope"></i><?php if($messageCount >0): ?><sup><?php echo $messageCount ?></sup><?php endif; ?></a></li>
+                      
 
                         <?php if(isset($_SESSION['id'])): ?>
                              <li> <a class="logout" href="<?php echo  BASE_URL."/logout.php" ?>">Logout</a></li>
-                        <?php endif; ?>
-           
-                       
+                        <?php endif; ?>            
                         <li id="close-flyout"><span class="fas fa-times"></span></li>
 
                     </ul>
@@ -104,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                
                     <div class="info">
 
-                    <?php if(isset($_SESSION['id'])): ?> 
+                    <?php if(isset($_SESSION['id'])):?> 
                         <span><?php echo $_SESSION['username']  ?> </span>
                         <br>
                          <a class="logout"   href="<?php echo  BASE_URL."/logout.php" ?>" >Logout</a>
@@ -135,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     </div>
 
-<?php if($_SESSION['admin'] == 0): ?>
+<?php if($_SESSION['admin'] == 0 || $_SESSION['admin'] == 2 ):?>
                                                  
     <section id="how-it-works">
         <div class="container">
@@ -204,34 +212,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <!-- // Display of errors -->
 
                     <input type="hidden" id="subject" name="user_id" value="<?php echo $_SESSION['id'] ?>" />
-                    <input type="hidden" id="subject" name="orderdBy" value="<?php echo $_SESSION['username'] ?>" />
+                    <input type="hidden" id="subject" name="orderdBy" value="<?php echo $_SESSION['username']. ' ' . $_SESSION['secondname']; ?>" />
                     <input type="hidden" id="subject" name="remainingAfterOrder" value="<?php echo $remainingAfterOrder ?>" />
-
+                    <input type="hidden" id="subject" name="department" value="<?php echo $_SESSION['department'] ?>" />
                    
                     
 
+
+
+
                     <label for="item Confirmation">Item</label>
-                       <select name="item_id"   id="items" class="select-dropdown">
-                        <option value="" selected disabled hidden>Choose here</option>
-                          <?php foreach($items as $key=>$item):?>
-
-                                <?php if(!empty($item_id) && $item_id == $item['id']):  ?>
-                                    <option selected value="<?php echo  $item['id'];?>"> <?php echo $item['item'] ?> </option>
-                                    <?php else: ?>
-                                    <option value="<?php echo $item['id']; ?>"> <?php echo $item['item'] ?> </option>
-                                <?php endif; ?>
-                                
-                            <?php endforeach; ?>
-
-                    </select>
-
-
-                    <label for="item Confirmation">Item Confirmation</label>
                   
                     <select name="item"  id="items"  class="select-dropdown">
                      <option value="" selected disabled hidden>Choose here</option>
                       <?php foreach($items as $key=>$item):?>
-                            <?php if(!empty($item_id) && $item_id == $item['id']):  ?>
+                            <?php if(!empty($item_id) && $item_id == $item['id']): ?>
                                 <option selected value="<?php echo  $item['item'];?>"> <?php echo $item['item'] ?> </option>
                                 <?php else: ?>
                                 <option value="<?php echo $item['item']; ?>"> <?php echo $item['item'] ?> </option>
@@ -245,18 +240,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="Quantity">Quantity</label>
                         <input type="number" id="subject" name="quantity" min="1" max="100"  value="<?php echo $quantity ?>"/>
 
-                        <label for="">Department</label>
-                        <input type="text" id="subject" name="department" />
-
                         <label for="message">Reason</label>
                         <textarea id="message" name="reason" ><?php echo $reason ?></textarea>
 
                        <button id="book-inventory" class="btn btn-big" name="book_inventory">Book</button>
                     </form>
 
+
+                   
+
                 </div>
 
-                <div id="address-container">
+
+
+                 <div id="form-container">
+       
+
+                </div>
+
+
+                 
+                
+
+                <div id="address-container"  style="margin-left:0.5rem;">
                     <label>Adress</label>
                     <address>
                        Muchai Drive off Ngong road Nairobi, Kenya
