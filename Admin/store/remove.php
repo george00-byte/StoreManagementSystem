@@ -6,6 +6,13 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
 storeOnly();
 
 
+if(isset($_GET["search"]))
+{
+    $items= selectRemaining($_GET['search']);
+}
+
+
+
 
 ?>
 
@@ -57,16 +64,21 @@ storeOnly();
         <!--Admin content-->
         <div class="admin-content">
             <div class="button-group">
-                <a href="remaining.php" class="btn btn-big">Add Inventory</a>
-                 <br> <br>    <br>
-                <a href="remove.php" class="btn btn-big">Remove Inventory</a>
-                <a href="index.php" class="btn btn-big">Manage </a>
+              
+                <a href="remove.php" class="btn btn-big" >Add Inventory</a>
+                <a href="index.php" class="btn btn-big" style="color:white; background:gold;">Manage </a>
                   
             </div>
+
+            
 
             <div class="content">
 
                 <h2 class="page-title">Manage Inventory</h2>
+
+                 <form class="button-group" method="get" action="remove.php">
+                    <input type="text" name="search" class="text-input" placeholder="search.. date in format 2000-07-14" />  <br>
+                </form>
 
                  <!--Succes message-->
                       <?php include(ROOT_PATH."/app/includes/messages.php"); ?>

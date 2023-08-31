@@ -6,6 +6,10 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
 storeOnly();
 
 
+if(isset($_GET["search"]))
+{
+    $items= selectRemaining($_GET['search']);
+}
 
 
 ?>
@@ -58,10 +62,8 @@ storeOnly();
         <!--Admin content-->
         <div class="admin-content">
             <div class="button-group">
-                <a href="create.php" class="btn btn-big">Add Inventory</a>
-                 <br> <br>    <br>
-                <a href="remove.php" class="btn btn-big">Remove Inventory</a>
-                <a href="index.php" class="btn btn-big">Manage </a>
+                <a href="remove.php" class="btn btn-big" style="color:white; background:red;">Remove Inventory</a>
+                <a href="index.php" class="btn btn-big" style="color:white; background:gold;">Manage </a>
                   
             </div>
 
@@ -78,8 +80,13 @@ storeOnly();
                     <table>
                         <thead>
                             <tr>
+
+                               <form class="button-group" method="get" action="remaining.php">
+                                    <input type="text" name="search" class="text-input" placeholder="search.. date in format 2000-07-14" />  <br>
+                                </form>
                                 <th>SN</th>
                                 <th>Item</th> 
+                                 <th>Remaining</th> 
                                 
                                 <th colspan="2">Action</th>
                             </tr>
@@ -93,9 +100,12 @@ storeOnly();
                             <tr>
                                 <td><?php echo $key+1 ?> </td>
                                 <td><?php echo $item['item']?> </td>
+                                 <td><?php echo $item['remaining']?> </td>
+
                               
                                 
                                 <td><a href="add.php?id=<?php echo $item['id'] ?>"   class="edit">ADD</a></td>
+                                <td><a href="alert.php?id=<?php echo $item['id'] ?>"   class="edit">Set Alert</a></td>
                                 <td><a href="remaining.php?delInventory_id=<?php echo $item['id'] ?>" class="delete" onclick="return checkDelete()">delete</a></td>
 
                             </tr>

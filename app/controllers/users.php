@@ -49,10 +49,14 @@
         {
             header('location: '.BASE_URL.'/Admin/dashboard.php');
         }
+         if($_SESSION['admin']==3)
+        {
+            header('location: '.BASE_URL.'/Admin/dashboard.php');
+        }
 
         else 
         {
-	        header('location: '.BASE_URL.'/index.php');
+	        header('location: '.BASE_URL.'/landing.php');
         }
 
         exit();

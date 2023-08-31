@@ -6,6 +6,35 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
 storeOnly();
 
 
+if(isset($_GET["sort"]))
+{
+    $requisitions=$requisitionsDesc;
+}
+
+elseif(isset($_GET['search-term']))
+{
+     $requisitions=searchTerm($_GET['search-term']);
+}
+
+elseif(isset($_GET['pending']))
+{
+     $requisitions=$requisitionsPending;
+}
+
+else 
+{
+    $requisitions=$requisitions;
+}
+
+
+$remainingArray = getRemaining();
+$alertsArray = getAlert();
+$alertItem = getItem();
+
+
+
+
+
 ?>
 
 
@@ -50,6 +79,8 @@ storeOnly();
        
         <?php include(ROOT_PATH."/app/includes/adminSidebar.php")  ?>
         <!--//Left sidebar-->
+        
+
 
 
 
@@ -59,10 +90,16 @@ storeOnly();
                 <a href="create.php" class="btn btn-big">Create Inventory</a>
                 <a href="remaining.php" class="btn btn-big">Add Inventory </a>
                 <br> <br> <br>
-                 <a href="pdf.php" class="btn btn-big">Print</a>
+                 <a href="pdf.php" class="btn btn-big" style="color:white; background:blue;" >Print</a> <a href="index.php" class="btn btn-big" style="color:white; background:gold; " >Unsort</a>
+                      
+                      <br>
             </div>
 
+           
+
             <div class="content">
+
+            
 
                 <h2 class="page-title">Manage Inventory</h2>
 
@@ -70,7 +107,38 @@ storeOnly();
                       <?php include(ROOT_PATH."/app/includes/messages.php"); ?>
                     <!--// Succes message-->
 
+                     <?php for ($i = 0; $i < count($alertsArray); $i++) {
+                    if ($alertsArray[$i]['alert'] >= $remainingArray[$i]['remaining']) 
+                    {
+                        // The alert and remaining values are equal, generate alert
+                        echo '<div id="alert' . $i . '" style="color: white; font-weight: italic; background-color: #d16f6f; width: 100%;">' . $alertItem[$i]['item'] . ' Quantity is below Minimum</div>' . PHP_EOL;
+                        echo '<script>';
+                        echo 'setTimeout(function() {';
+                        echo 'var alertDiv = document.getElementById("alert' . $i . '");';
+                        echo 'alertDiv.style.display = "none";';
+                        echo '}, 7000);'; // Change "5000" to the desired duration in milliseconds (e.g., 5000 milliseconds = 5 seconds)
+                        echo '</script>';
+                    }
+                    }
+                    ?>
+
                 <div class="table-responsive">
+                    
+                      <form class="button-group" method="get" action="index.php">
+                             <input type="text" name="search-term" class="text-input" placeholder="search.. date in format 2000-07-14" />  <br>
+                      </form>
+
+                       <form class="button-group" method="get" action="index.php">
+                             <button class="btn btn-big" style="background:red" name="sort" >Sort</button>        <form class="button-group" method="get" action="index.php">
+                             <button class="btn btn-big" style="background:green" name="pending" >Pending</button>
+                      </form>
+                      </form>    <br> 
+                       
+
+                      
+
+                     
+                    
 
                     <table>
                         <thead>
@@ -80,9 +148,11 @@ storeOnly();
                                 <th>Quantity</th>
                                 <th>Department</th>
                                 <th>Date</th>
-                                <th>Reason</th>
+                                <th>ID</th>
+                                 <th>Ordered by</th>
                                  <th>Approved by</th>
-                                  <th>Issued</th>
+                                 <th>Document</th>
+                                  <th>Status</th>
                                
                                 
                                 <th colspan="2">Action</th>
@@ -95,27 +165,29 @@ storeOnly();
                         <?php foreach($requisitions as $key =>$requisition): ?>
                             <tr>
 
-                            <?php if( $requisition['approve'] == 1):  ?>
+                            <?php if( $requisition['approve'] == 1): ?>
                                 <td><?php echo $key+1 ?> </td>
                                 <td><?php echo $requisition['item']?> </td>
                                 <td><?php echo $requisition['quantity']?> </td>
                                 <td><?php echo $requisition['department']?> </td>
-                                <td><?php echo date('F j, Y', strtotime($requisition['created-at'])); ?> </td>
-                                <td> <?php echo html_entity_decode(substr($requisition['reason'],0,5)."..."); ?></td>
+                                <td><?php echo date('F j, Y', strtotime($requisition['created_at'])); ?> </td>
+                                <td> <?php echo $requisition['finalId'] ?></td>
 
-                               
+                                <td> <?php echo $requisition['orderdBy'] ?></td>
                                 <td><?php echo   $requisition['approvedBy']  ?> </td>
+
+                                  <td><a  target=”_blank” href="pdfdownload.php?document=<?php echo $requisition['document'] ?>" class="edit"><?php echo $requisition['document'] ?></a></td>
                                 
 
                                     <?php if($requisition['issue'] == 1): ?>
                                         <td><a href="edit.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit">Issued</a></td>
-                                         <td><a href="singlePdf.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit">Print</a></td>
+                                         <td><a href="singlePdf.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit" style="color:white; background:blue; padding:2px; border-radius:2px" >Print</a></td>
                                     <?php else: ?>
-                                        <td><a href="edit.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit">pending</a></td>
-                                         <td><a href="index.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit">Print</a></td>
+                                        <td><a href="edit.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit">View</a></td>
+                                         <td><a href="index.php?id=<?php echo $requisition['id'] ?>?item_id=<?php echo $requisition['item_id'] ?> ?quantity=<?php echo $requisition['quantity'] ?>?approved=<?php echo $requisition['approve'] ?>" class="edit" style="color:white; background:blue; padding:2px; border-radius:2px" >Print</a></td>
                                     <?php endif; ?>
                                
-                                <td><a href="index.php?delete_id=<?php echo $requisition['id'] ?>" class="delete" onclick="return checkDelete()">delete</a></td>
+                               
 
                              <?php endif;  ?>
 

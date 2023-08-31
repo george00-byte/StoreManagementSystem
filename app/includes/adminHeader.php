@@ -1,7 +1,7 @@
  <header>
         <label for="nav-toggle"><span class="fa fa-bars"></span></label>
         <div class="logo">
-            <h1 class="logo-text"><span>TotalSecurity.</span>Inventory</h1>
+            <h1 class="logo-text"><span>TSS.</span>Inventory System</h1>
         </div>
         <i class="fa fa-bars menu-toggle"> </i>
 

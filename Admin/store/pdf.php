@@ -95,7 +95,7 @@ $html='!DOCTYPE html>
                                     <td  style="border:1px solid;text-align:center;">'.$requisition['quantity'].'</td>
 
                                     <td style="border:1px solid;text-align:center;">'.$requisition['department'].'</td>
-                                    <td style="border:1px solid;text-align:center;">'. date('F j, Y', strtotime($requisition['created-at'])).'</td>
+                                    <td style="border:1px solid;text-align:center;">'. date('F j, Y', strtotime($requisition['created_at'])).'</td>
                                 
                                     <td style="border:1px solid;text-align:center;">'.$requisition['approvedBy'].'</td>
                                     <td style="border:1px solid;text-align:center;">'.$requisition['issuedBy'].'</td>

@@ -2,7 +2,7 @@
 
 /*start global styles*/
 html, body {
-    font-family: "Roboto","Helvetica","sans-serif";
+    font-family: 'Times New Roman', Times, serif;
     margin: 0;
     padding: 0;
     font-size: 1rem;
@@ -29,7 +29,7 @@ html, body {
 {
     max-width:1140px;
     margin: 0 auto;
-    padding: 0 20PX;
+    padding: 0 20px;
 
 }
 
@@ -49,7 +49,7 @@ h1,h2,h3,h4,h5
 
 h1, h2
 {
-    font-family:"playfair Display","serif";
+    font-family:'Times New Roman', Times, serif;
     font-weight:800;
 }
 
@@ -66,16 +66,18 @@ h3
     font-weight:300;
 }
 
-h4 {
+h4 
+{
     font-size: 1.2rem;
     font-weight: 300;
     color:#14bff6;
 }
 
 
-h5 {
+h5 
+{
     font-size: 1rem;
-    font-family: "playfair Display","serif";
+    font-family: 'Times New Roman', Times, serif;
 }
 
 p
@@ -83,7 +85,8 @@ p
     margin: 0 0 1rem;
 }
 
-a.round {
+a.round 
+{
     text-decoration: none;
     background: #14bff6;
     border: none;
@@ -96,7 +99,8 @@ a.round {
 }
 
 
-a.round:hover {
+a.round:hover
+{
     background: #0fa9db;
 }
 
@@ -119,7 +123,6 @@ a.rounded:hover
         
 }
 
-
 .large-paragraph
 {
     font-size:1.25rem;
@@ -139,37 +142,39 @@ a.rounded:hover
 }
 
 
-
-header
+header 
 {
-    background:transparent;
-    padding:1rem 0;
-    border-bottom:1px solid rgba(255,255,255,0.1);
-    position:fixed;
-    width:100%;
-    z-index:3;
+   
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: fixed;
+    padding: 0.5rem;
+    background: #fff !important;
+    box-shadow: 0 -4px 10px 1px #999 !important;
+    height: 72px;
+    box-sizing: border-box;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+    width: 100%;
+ 
 }
 
 
 #logo
 {
-    font-family: 'candal', serif;
+    font-family: 'Times New Roman', Times, serif;
     font-size: 1.7rem;
     font-weight: 800;
-    color: #fff;
+    color: #000 !important;
     text-decoration: none;
     position: relative;
     top: 4px;
 }
 
 
-#logo span
+
+.hamburger-menu
 {
-    color:#14bff6 !important;
-}
-
-
-.hamburger-menu {
     background-color: transparent;
     border: 1px solid #fff;
     padding: 3px 5px;
@@ -183,9 +188,9 @@ header
 
 .hamburger-menu .strip
 {
-    display:block;
+    display:block !important;
     height:1px;
-    background-color: #fff;
+    background-color: #000 !important;
     margin:4px 0;
 
 }
@@ -213,12 +218,12 @@ header ul li a
     transition: 1.3s !important;
     color: #999;
     font-size: 16px;
-    text-decoration: none;
+    text-decoration:none;
 }
 
 header ul li a.logout:hover
 {
-    transition: 1s !important;
+    transition: 0.6s !important;
     background:red;
     color: white !important;
     border:1px solid #fff;
@@ -241,13 +246,12 @@ header ul.ls-sticky li a
 }
 
 
-
 header ul li a:hover, 
 header ul li a.active
 {
     transition:1s !important;
     font-weight:bold;
-    color:#0fa9db !important ;
+    color:#0fa9db !important;
 }
 
 
@@ -270,11 +274,11 @@ header ul li sup
 }
 
 
-
 header ul li ul 
 {
     border: solid red;
 }
+
 header ul li ul a 
 {
     border:solid red;
@@ -288,48 +292,48 @@ header ul li:hover ul
 /*end header styles*/
 
 
-
-
 /*Start hero section*/
 #hero
 {
-    background: url("https://totalsecuritykenya.com/wp-content/uploads/2020/10/cover-final_optimized.jpg");
+    background-image: url("../images/CoverPage.png");
     center center no-repeat;
-    background-size:cover;
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:1;
-    height:100%;
-    width:100%;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    margin: 0px;
 }
 
 
-#hero .fade {
+#hero .fade
+{
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(52,58,64,0.9);
+    background-color: transparent;
     z-index:1;
 }
 
-#hero .hero-text 
+#hero .hero-text
 {
     position: absolute;
     top: 50%;
-    margin: 7px auto 0;
+    margin: 3px auto 0;
     left: 0;
-    right: 0; 
+    right: 0;
     z-index:2;
     width: 500px;
-    color: #fff;
+    color:#14bff6;
     text-align: center;
 }
 
 
-#hero .hero-text h1.byzantium-properties 
+#hero .hero-text h1.byzantium-properties
 {
     font-family: 'candal', serif !important;
 }
@@ -337,11 +341,9 @@ header ul li:hover ul
 
 
 
-
-
 .hero-text .info
 {
-    color:#f69314;
+    color:#14bff6;
 }
 
 .hero-text .info a
@@ -353,20 +355,19 @@ header ul li:hover ul
 
 .hero-text .info span
 {
-    font-weight:bold !important;
+   font-weight:bold !important;
 }
 
 .hero-text .info a.logout
 {
-   
-    color: white;
-    
+    color: red;
 }
 
 .hero-text .info a.logout:hover
 {
     cursor: pointer;
     background: red;
+    transition:0s !important;
     padding: .3rem;
     border: solid 1px #fff;
     color: white;
@@ -400,7 +401,8 @@ header ul li:hover ul
 
 /*start How it woks secton*/
 
-#how-it-works {
+#how-it-works 
+{
     padding: 3rem 0;
     background: #f8f9fa;
     text-align: center;
@@ -411,15 +413,12 @@ header ul li:hover ul
 #how-it-works h2
 {
     margin-bottom:3rem;
-
 }
 
 
 #how-it-works .container
 {
-    
-    margin-bottom: 1.2rem;
-    
+   margin-bottom: 1.2rem;
 }
 
 
@@ -599,14 +598,14 @@ header ul li:hover ul
 #contact
 {
     background:#f8f9fa;
-    padding:4rem 0 8rem;
+    padding:2.8rem 0 8rem;
 }
 
 
 #contact h2
 {
     text-align:center;
-    margin-bottom:4rem;
+    margin:2rem;
 
 }
 
@@ -655,23 +654,21 @@ header ul li:hover ul
 
 
 
-
-
-   #items.select-dropdown
-   {
-       font-weight:bold;
-        border-radius: 20px;
-        display: block;
-        width: 100%;
-        border: 1px solid #ced4da;
-        padding: 10px;
-        width: 100%;
-        box-sizing: border-box;
-        height: 43px;
-        font-family: "Roboto", "Helvetica" 'sans-serif';
-        font-size: 1rem;
-        color: #495057;
-    }
+#items.select-dropdown
+{
+    font-weight:bold;
+    border-radius: 20px;
+    display: block;
+    width: 100%;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 43px;
+    font-family: "Roboto", "Helvetica" 'sans-serif';
+    font-size: 1rem;
+    color: #495057;
+}
 
 
 
@@ -911,6 +908,7 @@ footer small a
 #logo
 {
     top:1px;
+    font-size:20px;
 }
 
 

@@ -1,14 +1,9 @@
-
-
 <?php
 
     include("path.php");
     include(ROOT_PATH.'/app/controllers/requisition.php');
     include(ROOT_PATH.'/app/helpers/middleware.php');
-
-
     usersOnly();
-
 
 ?>
 <!DOCTYPE html>
@@ -91,6 +86,15 @@
  if ($_SERVER["REQUEST_METHOD"] === "POST") 
  {
     // Get the submitted item and quantity arrays
+     if(!empty($_FILES['document']['name']))
+	{
+		$file_name=time().'_'.$_FILES['document']['name'];
+        $destination=ROOT_PATH."/assets/files/".$file_name;
+
+        $result=move_uploaded_file($_FILES['document']['tmp_name'],$destination);
+        $_POST['document']=$file_name;
+	}
+
     $items = $_POST['item'];
     $quantities = $_POST['quantity'];
 
@@ -209,7 +213,6 @@
     }
 
 
-    
     $_POST['item_id'] = $item_ids;
     $_POST['remainingAfterOrder']=$ids;
     $_POST['quantity']=$quantityNo;
@@ -224,7 +227,7 @@
 
   
 
-    function insertDataIntoRequisition($data)
+function insertDataIntoRequisition($data)
 {
     $host = "localhost";
     $user = "root";
@@ -238,13 +241,14 @@
     }
 
     // Prepare the SQL statement
-    $sql = "INSERT INTO requisition (item, quantity, item_id, user_id, orderdBy, remainingAfterOrder, department, reason, finalId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO requisition (item, quantity, item_id, user_id, orderdBy, remainingAfterOrder, department, reason, finalId, document) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Prepare the statement
     $stmt = $conn->prepare($sql);
 
     // Bind parameters and execute the statement for each array item
-    foreach ($data['item'] as $key => $item) {
+    foreach ($data['item'] as $key => $item)
+    {
         $quantity = $data['quantity'][$key];
         $item_id = $data['item_id'][$key];
         $user_id = $data['user_id'][$key];
@@ -253,9 +257,10 @@
         $department = $data['department'][$key];
         $reason = $data['reason'][$key];
         $finalId =$data['finalId'][$key];
+        $document=$data['document'];
 
         // Bind parameters to the statement
-        $stmt->bind_param("siiisisss", $item, $quantity, $item_id, $user_id, $orderedBy, $remainingAfterOrder, $department, $reason, $finalId);
+        $stmt->bind_param("siiisissss", $item, $quantity, $item_id, $user_id, $orderedBy, $remainingAfterOrder, $department, $reason, $finalId, $document);
 
         // Execute the statement
         $stmt->execute();
@@ -265,7 +270,6 @@
     $stmt->close();
     $conn->close();
 }
-
 
 
     $itemArray = $_POST['item'];
@@ -358,7 +362,8 @@
     {
         echo '<div class="alert alert-danger" role="alert">
                   Error occurred: ';
-        foreach ($errors as $error) {
+        foreach ($errors as $error) 
+        {
             echo $error . '<br>';
         }
         echo '</div>';
@@ -397,33 +402,27 @@
       }
 
 
-	      
-     
 
 
-
-       
-
-    }
-
+ }
     
 
 
 ?>
 
 
-   <div class="d-inline-flex p-5 m-3 bg-dark w-100 h-100 ">
+   <div class="d-inline-flex p-5 m-3 bg-white w-100 h-100 ">
    
 
-    <form id="sendform" method="post" action="#"   class="m-5" > 
-     <h1 class="text-light">Book Inventory</h1>
+    <form id="sendform" method="post" action="#"   class="m-5" enctype=multipart/form-data > 
+     <h1 class="text-dark" >Request Inventory</h1>
         <input type="hidden" id="subject" name="user_id" value="<?php echo $_SESSION['id'] ?>" />
         <input type="hidden" id="subject" name="orderdBy" value="<?php echo $_SESSION['username']. ' ' . $_SESSION['secondname']; ?>" />
         <input type="hidden" id="subject" name="remainingAfterOrder" value="<?php echo $remainingAfterOrder ?>" />
         <input type="hidden" id="subject" name="department" value="<?php echo $_SESSION['department'] ?>" />
 
     <div id="fieldsetContainer" >
-     <button type="button" class="btn btn-warning m-1"  onclick="addFieldset()">Add Fieldset</button>
+     <button type="button" class="btn btn-warning m-1"  onclick="addFieldset()">Add Field</button>
 
       <fieldset class="form-group">
         <select name="item[]" id="items"  class="p-1 block w-10 h-10 " >
@@ -438,16 +437,21 @@
         </select>
         <input type="number" id="fullname" name="quantity[]" min="1" max="100" placeholder="No"   class="p-1 m-1 block w-20 h-10 " />
       </fieldset>
+
     </div>
 
     
     <label for="message">Reason</label>
     <textarea id="message" name="reason"  class="form-control" id="exampleFormControlTextarea1" rows="3" ><?php echo $reason ?></textarea>
-   
+    <br>
+    <label for="file">Select a Supporting Document</label>
+    <br>
+    <input type="file" name="document" id="message">
     
 
+    <br>
 
-  <input type="submit" value="Send" class="btn btn-info mt-1"  />
+  <input type="submit" value="Request" class="btn btn-info mt-1"  />
 </form>
 </div>
 

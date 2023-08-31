@@ -117,18 +117,12 @@ adminOnly();
                         <input type="password" name="passwordConf" class="text-input"  value="<?php echo $passwordConf ?>"  />
                     </div>
 
-                     <div>
-                        <label>Image</label>
-                        <input name="image" type="file" class="text-input">
-
-                    </div>
-
-
+                
 
                     <div>
                        
                         <label>
-                            
+                             <label>Admin level</label>
                       
                             <input name= "admin" type="number" min=0 max= 20 class="text-input"  value="<?php echo $admin?>" >
                       

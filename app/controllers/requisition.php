@@ -16,6 +16,9 @@
   
 
    $requisitions=selectAll($table);
+   $requisitionsDesc=selectAllDesc($table);
+   $requisitionsPending= selectAllPending($table);
+
    $items=selectAll($tableStore);
 
 
@@ -26,6 +29,9 @@
 
    $dept=$_SESSION['department'];
    $requisitionInDept=selectAllInDepartment($dept);
+   $requisitionInDeptDesc=selectAllInDepartmentDesc($dept);
+   $requisitionInDeptPending=selectAllInDepartmentPending($dept);
+
 
 
    $messages=selectOne($tableMessage,['id'=>$id]);
@@ -36,7 +42,7 @@
 
    $id="";
    $item ='';
-   $declineReason="";
+   $declineReason=""; 
    $decline="";
    $total ='';
    $quantity = '';
@@ -55,6 +61,16 @@
    
    if(isset($_POST["book_inventory"]))
    {
+        if(!empty($_FILES['document']['name']))
+	    {
+		    $file_name=time().'_'.$_FILES['document']['name'];
+            $destination=ROOT_PATH."/assets/files/".$file_name;
+
+            $result=move_uploaded_file($_FILES['document']['tmp_name'],$destination);
+            $_POST['document']=$file_name;
+		
+	    }
+        $_POST['document']=$file_name;
         $errors = validateRequisition($_POST);
 
        if(count($errors) == 0)
@@ -113,7 +129,8 @@
                 return implode($pass); //turn the array into a string
             }
 
-
+          
+          
 
             if($remainingAfterOrder >= 0)
             {
@@ -195,7 +212,7 @@ if(isset($_GET['id']))
     $orderdBy=$requisition['orderdBy'];
     $issuedBy=$requisition['issuedBy'];
     $approvedBy=$requisition['approvedBy'];
-    $created_at=date('Y-m-d', strtotime($requisition['created-at']));
+    $created_at=date('Y-m-d', strtotime($requisition['created_at']));
     
 
 
@@ -222,8 +239,10 @@ if(isset($_POST['approve-inventory']))
           if($total >0 && $sum<=$total )
         {
             $id=$_POST['id'];
-            $_POST['approve']=isset($_POST['approve'])?1:0;
-    
+            //$_POST['approve']=isset($_POST['approve'])?1:0;
+
+            $_POST['approve']=1;
+
             unset($_POST['approve-inventory'],$_POST['id']);
 
             $count = update($table,$id,$_POST);
@@ -265,7 +284,8 @@ if(isset($_POST['decline-inventory']))
         if(count($errors) === 0)
         {
             $id=$_POST['id'];
-            $_POST['decline']=isset($_POST['decline'])?1:0;
+            //$_POST['decline']=isset($_POST['decline'])?1:0;
+            $_POST['decline']=1;
             unset($_POST['decline-inventory'],$_POST['id']);
             $count = update($table,$id,$_POST);
             header('location: '.BASE_URL."/Admin/inventory/index.php");
@@ -324,9 +344,8 @@ if (isset($_POST['message-User']))
  if(isset($_POST['issue-inventory']))
 {
     $id=$_POST['id'];
-    $_POST['issue']=isset($_POST['issue'])?1:0;
     $_POST['approve']=isset($_POST['approve'])?0:1;
-    $_POST['issue']==1;
+    $_POST['issue']=1;
     $_POST['approve']==1;
 
     $sum= getTotalQuantityOrder($_POST['item']);
@@ -344,10 +363,7 @@ if (isset($_POST['message-User']))
             $remaining = $total - $sum;
             $_POST['remaining']=$remaining;
 
-         
-           
             $_POST['id']=$_POST['item_id'];
-           
             unset($_POST['issue-inventory'],$_POST['user_id'],$_POST['id'],$_POST['quantity'],$_POST['department'],$_POST['date'],$_POST['reason'],$_POST['approve'],$_POST['item']);
             $count = update($table,$id,$_POST);
             $id = $_POST['item_id'];
@@ -378,7 +394,6 @@ if (isset($_POST['message-User']))
         exit();
     }
 }
-
 
 
 
@@ -456,7 +471,6 @@ if(isset($_GET['deleteOrder_id']))
     header('location:'.BASE_URL."/redirect.php");
     exit();
 }
-
 
 
 if(isset($_GET['remaining_id']))
@@ -551,7 +565,6 @@ if(isset($_GET['read_id']))
     $quantity=$message['quantity'];
     $status=$message['status'];
     $message=$message['message'];
-   
    
    
 }

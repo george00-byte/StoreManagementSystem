@@ -96,15 +96,24 @@ $getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
                 <li>
                     <a href=" <?php echo BASE_URL."/admin/users/index.php"?> ">
                         <span class="las la-users"></span>
-                        <span>Users</span>
+                        <span>Manage Users</span>
                     </a>
 
                 </li>
 
+
                 <li>
                     <a href="<?php echo BASE_URL."/admin/store/index.php"?>">
                         <span class="las la-clipboard-list"></span>
-                        <span>Issue</span>
+                        <span>Store<span>
+                    </a>
+
+                </li>
+
+                 <li>
+                    <a href="<?php echo BASE_URL."/admin/store/department.php"?>">
+                        <span class="las la-clipboard-list"></span>
+                        <span>Departments<span>
                     </a>
 
                 </li>
@@ -125,6 +134,26 @@ $getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
                 </li>
             <?php endif; ?>
 
+            <?php if($_SESSION['admin'] ===3):?>
+                <li>
+                    <a href="<?php echo BASE_URL."/admin/store/viewOnly.php"?>">
+                        <span class="las la-receipt"></span>
+                        <span>View Rewuests</span>
+                    </a>
+
+                </li>
+
+                 <li>
+                    <a href="<?php echo BASE_URL."/admin/store/viewRemainingOnly.php"?>">
+                        <span class="las la-receipt"></span>
+                        <span>View remaining</span>
+                    </a>
+
+                </li>
+            <?php endif; ?>
+
+            <?php if($_SESSION['admin'] != 3): ?>
+
                 <li>
                     <a href=" <?php echo BASE_URL."/index.php"?> ">
                         <span class="las la-user-circle"></span>
@@ -132,7 +161,7 @@ $getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
                     </a>
 
                 </li>
-
+             <?php endif; ?>
 
 
             </ul>
@@ -151,9 +180,9 @@ $getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
                 Dashboard
             </h2>
 
-            <div class="search-wrapper">
+            <div class="search-wrapper" style="border:none; color:white;">
                 <span class="las la-search"></span>
-                <input type="search" placeholder="Search here" />
+                <input type="search"  />
 
             </div>
 
@@ -187,28 +216,19 @@ $getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
 
         <main>
             <div class="cards">
-                <div class="card-single">
-                    <div>
-                        <h1> </h1>
-                        <span>Customers</span>
-                    </div>
-
-                    <div>
-                        <span class="las la-users"></span>
-                    </div>
-                </div>
+                
 
 
                 <div class="card-single">
                     <?php if($_SESSION['admin']===1): ?>
                         <div>
                             <h1><?php echo $numberOfOrders; ?></h1>
-                            <span>Orders</span>
+                            <span>Requests</span>
                         </div>
                     <?php else:?>
                             <div>
                             <h1><?php echo $getNumberOfInventoryOrderedInDept ?></h1>
-                            <span>Orders</span>
+                            <span>Requests</span>
                         </div>
                     <?php endif; ?>
                     <div>
@@ -221,12 +241,12 @@ $getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
                 <?php if($_SESSION['admin']===1): ?>
                     <div>
                         <h1><?php echo $CountItemsInProgress?></h1>
-                        <span>Orders in progress</span>
+                        <span>Requests in progress</span>
                     </div>
                   <?php else:?>
                      <div>
                         <h1><?php echo $getNumberOfInventoryInProgressDept?></h1>
-                        <span>Orders in progress</span>
+                        <span>Requests in progress</span>
                     </div>
                  <?php endif; ?>
                     <div>
@@ -250,70 +270,58 @@ $getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
 
             </div>
 
-
             <div class="recent-grid">
                 <div class="projects">
                     <div class="card">
 
                         <div class="card-header">
-                            <h3>Orders</h3>
+                          
+                      </div>
 
-                             <?php if($_SESSION['admin'] ===1):?>
-                                <a href="<?php echo BASE_URL."/Admin/store/index.php"; ?>">See all <span class="las la-arrow-right"></span></a>
-                             <?php endif; ?>
-
-                            
-                        </div>
 
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table width="100%">
                                     <thead>
-                                        <tr class="table-header">
-                                            <td>Item</td>
-                                            <td>Quantity</td>
-                                            <td>Status</td>
-                                        </tr>
                                     </thead>
 
                                     <tbody>
 
-                                       <?php if($_SESSION['admin']===2): ?>
-                                            <?php foreach($requisitionInDept as $requisition ):?>
-                                                <tr>
-                                                    <td> <?php echo $requisition['item']; ?> </td>
-                                                    <td><?php echo $requisition['quantity']; ?> </td>
+                                       <div class="card-single">
+                                        <div>
+                                          
+                                            <span><a href="<?php echo BASE_URL."/admin/store/department.php"?>">Departments</a></span>
+                                        </div>
 
-                                                    <?php if($requisition['issue']): ?>
-                                                        <td><span class="status green"></span>issued</td>
-
-                                                        <?php else: ?>
-                                                         <td><span class="status orange"></span>In progress</td>
-
-                                                    <?php endif; ?>
-
-                                                </tr>
-                                             <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <?php foreach($requisitions as $requisition ):?>
-                                                <tr>
-                                                    <td> <?php echo $requisition['item']; ?> </td>
-                                                    <td><?php echo $requisition['quantity']; ?> </td>
-
-                                                    <?php if($requisition['issue']): ?>
-                                                        <td><span class="status green"></span>issued</td>
-
-                                                        <?php else: ?>
-                                                         <td><span class="status orange"></span>In progress</td>
-
-                                                    <?php endif; ?>
-
-                                                </tr>
-                                             <?php endforeach; ?>
+                                        <div>
+                                            <span class="lab la-google-wallet"></span>
+                                        </div>
+                                    </div>
 
 
-                                        <?php endif; ?>
+                                    <div class="card-single">
+                                        <div>
+                                              <span><a href="<?php echo BASE_URL."/admin/store/index.php"?>">Store</a></span>
+                                        </div>
 
+                                        <div>
+                                            <span class="lab la-google-wallet"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-single">
+                                         <div>
+                                              <span><a href="<?php echo BASE_URL."/admin/users/index.php"?>">Users</a></span>
+                                        </div>
+
+                                        <div>
+                                            <span class="lab la-google-wallet"></span>
+                                        </div>
+                                        
+                                    </div>
+
+
+                                 
                                       
 
                                     </tbody>
@@ -330,17 +338,24 @@ $getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
                     <div class="card">
 
                         <div class="card-header">
-                            <h3>REMAINIG IN STORE</h3>
+                            <h3>Stock</h3>
                                  <?php if($_SESSION['admin'] ===1):?>
                                     
                                     <a href="<?php echo BASE_URL."/Admin/store/remaining.php"; ?>" >Add Stock <span class="las la-arrow-right"></span></a>
+                                 <?php endif; ?>
+                                  <?php if($_SESSION['admin'] ===2):?>
+                                    
+                                    <a href="<?php echo BASE_URL."/Admin/inventory/remainingInStore.php"; ?>" >View <span class="las la-arrow-right"></span></a>
                                  <?php endif; ?>
 
                         </div>
 
                         <div class="card-body">
                        
-                           <?php foreach($tableStoreItems as $tableStore ): ?>
+                           <?php $i=1; 
+                           foreach($tableStoreItems as $tableStore ): 
+                           if($i >7){break;} else{
+                           ?>
                              <?php if($tableStore['remaining'] >= 0):?>
                                     <div class="customer">
                                         <div class="info">
@@ -362,9 +377,13 @@ $getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
                                  </div>
                              <?php  endif; ?>     
 
-                            <?php endforeach; ?>
+                            <?php  $i++ ;} endforeach; ?>
 
-                             <?php foreach($tableStoreItems as $tableStore ): ?>
+                             <?php 
+                            $i=1; 
+                             foreach($tableStoreItems as $tableStore ):
+                             if($i >7){break;} else{
+                             ?>
                              <?php if($tableStore['remaining'] == 0 && $tableStore['issue'] == 0):?>
                                     <div class="customer">
                                         <div class="info">
@@ -386,7 +405,7 @@ $getNumberOfInventoryInProgressDept=getNumberOfInventoryInProgressDept($dept);
                                  </div>
                              <?php  endif; ?>     
 
-                            <?php endforeach; ?>
+                            <?php $i++ ;}  endforeach; ?>
                         
 
                         </div>

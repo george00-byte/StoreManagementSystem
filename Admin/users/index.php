@@ -4,6 +4,17 @@ include("../../path.php");
 include(ROOT_PATH."/app/controllers/users.php");
 
 
+
+if(isset($_GET["search_name"]))
+{
+    $users=searchName($_GET['search_name']);
+}
+
+elseif(isset($_GET['admin']))
+{
+     $users=searchAdmin();
+}
+
 ?>
 
 
@@ -66,6 +77,15 @@ include(ROOT_PATH."/app/controllers/users.php");
                       <?php include(ROOT_PATH."/app/includes/messages.php"); ?>
                     <!--// Succes message-->
 
+                    <form class="button-group" method="get" action="index.php">
+                             <input type="text" name="search_name" class="text-input" placeholder="search.. date in format 2000-07-14" />  <br>
+                      </form>
+
+                      <br>
+                        <form class="button-group" method="get" action="index.php">
+                             <button class="btn btn-big" style="background:gold" name="admin" >Filter Admin</button>
+                      </form>
+
                 <div class="table-responsive">
 
                     <table>
@@ -73,8 +93,10 @@ include(ROOT_PATH."/app/controllers/users.php");
                             <tr>
                                 <th>SN</th>
                                 <th>Username</th>
+                                <th>Secondname</th>
                                 <th>Email</th>
-                                <th>Role </th>
+                                <th>Department </th>
+                                 <th>Role</th>
                                 
                                 <th colspan="2">Action</th>
                             </tr>
@@ -86,9 +108,11 @@ include(ROOT_PATH."/app/controllers/users.php");
                             <tr>
                                 <td><?php echo $key+1 ?> </td>
                                 <td><?php echo $user['username']?> </td>
+                                 <td><?php echo $user['secondname']?> </td>
                                 <td><?php echo $user['email']?> </td>
 
                                 
+                                   <td><?php echo $user['department']?> </td>
                                 <?php if($user['admin']): ?>
                                     <td><?php echo 'admin' ?><td>
 
@@ -97,7 +121,7 @@ include(ROOT_PATH."/app/controllers/users.php");
                                     <td><?php echo 'customer' ?><td>
 
                                  <?php endif; ?>
-
+                              
 
 
                                 <td><a href="edit.php?id=<?php echo $user['id'] ?>" class="edit" >edit</a></td>

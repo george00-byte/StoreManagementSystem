@@ -57,7 +57,7 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
         <!--Admin content-->
         <div class="admin-content">
             <div class="button-group">
-                <a href="index.php" class="btn btn-big">Manage</a>
+                <a href="index.php" class="btn btn-big" style="color:white; background:gold;">Manage</a>
             </div>
 
             <div class="content">
@@ -107,24 +107,13 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
 
                     <div>
                        
-                        <label>
-
-                            <?php if($decline == 1): ?>
-                                <input type="checkbox" name="decline" checked >
-                               Decline
-                            <?php else: ?>
-                                <input type="checkbox" name="decline"  >
-                               Decline
-
-                            <?php endif; ?>
-
-                        </label>
+                       
 
 
                     </div>
 
                     <div>
-                        <button name="decline-inventory" class="btn btn-big">Decline Inventory</button>
+                        <button name="decline-inventory" class="btn btn-big" onclick="return confirm('Are you sure?')">Decline Inventory</button>
 
                     </div>
 

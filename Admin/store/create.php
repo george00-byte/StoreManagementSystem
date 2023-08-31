@@ -54,7 +54,7 @@ storeOnly();
         <div class="admin-content">
             <div class="button-group">
                 <a href="create.php" class="btn btn-big">Add Inventory</a>
-                <a href="index.php" class="btn btn-big">Manage</a>
+                <a href="index.php" class="btn btn-big" style="color:white; background:gold;">Manage</a>
             </div>
 
             <div class="content">

@@ -90,8 +90,9 @@ storeOnly();
 
                     <div>
                         <label>Quantity</label>
-                         <input type="text" name="quantity" id="subject" readonly  class="text-input" value="<?php echo $quantity; ?>" />
+                         <input type="text" name="quantity" id="subject"  class="text-input" value="<?php echo $quantity; ?>" />
                     </div>
+
 
 
                     <div>
@@ -99,7 +100,6 @@ storeOnly();
                          <input type="text" name="department" id="subject" readonly class="text-input" value="<?php echo $department; ?>" />
 
                     </div>
-
 
                    
 
@@ -112,19 +112,12 @@ storeOnly();
 
 
                     <div>
-                       
-                        <label>
 
-                            <?php if($issue == 1): ?>
-                                <input type="checkbox" name="issue" checked >
-                                Issue
-                            <?php else: ?>
-                                <input type="checkbox" name="issue"  >
-                                Issue
 
-                            <?php endif; ?>
+                         
+                    <input  name="issue" type='hidden'  >
+                        
 
-                        </label>
 
 
                     </div>

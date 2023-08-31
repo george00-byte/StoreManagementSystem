@@ -115,12 +115,7 @@ adminOnly();
                         <input type="password" name="passwordConf" class="text-input" />
                     </div>
 
-                     <div>
-                        <label>Image</label>
-                        <input name="image" type="file" class="text-input">
-
-                    </div>
-
+                
 
 
                     <div>

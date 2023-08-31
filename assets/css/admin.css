@@ -21,7 +21,7 @@
 {
     flex: 8;
     height: 100%;
-    background: #d7d7d7;
+    background: #f0f0f0;
     padding: 40px 100px 100px;
 
     overflow-x: scroll;
@@ -71,9 +71,9 @@ table
 
 
 th, td {
-    padding: 15px;
+    padding: 5px;
     text-align: left;
-    border-bottom: 1px solid #f69314;
+    border-bottom: 1px solid #14bff6;
     
 }
 
@@ -293,6 +293,12 @@ header label span
     .auth-content
     {
         width: 60%;
+    }
+
+
+    th, td {
+        padding: 1px;
+       
     }
 
     

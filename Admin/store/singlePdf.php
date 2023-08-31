@@ -109,12 +109,12 @@ $html='<!DOCTYPE html>
 
                     </div>
 
-                    <h3>Date of Order: '.$created_at.'</h3>
-                    <h3>Ordered By: '.$orderdBy.'</h3>
-                    <h3>Approved By: '.$approvedBy.'</h3>
-                    <h3>Issued By: '.$issuedBy.'</h3>
+                    <h5>Date of Order: '.$created_at.'</h5>
+                    <h5>Ordered By: '.$orderdBy.'</h5>
+                    <h5>Approved By: '.$approvedBy.'</h5>
+                    <h5>Issued By: '.$issuedBy.'</h5>
                     
-                    <h3>Date printed: '.date('Y-m-d').'</h3>
+                    <h5>Date printed: '.date('Y-m-d').'</h5>
                     
                     
                     

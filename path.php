@@ -6,5 +6,4 @@ define("BASE_URL","http://localhost/OOP_php/inventory");
 
 
 
-
 ?>

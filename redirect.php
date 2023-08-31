@@ -14,6 +14,7 @@ if(isset($_SESSION['id']))
 }
 
 
+
  
 ?>
 
@@ -79,9 +80,9 @@ if(isset($_SESSION['id']))
                     <ul id="nav-menu" class="ls-sticky">
                         <li> <a href="index.php" class="active">Home</a></li>
                         <li> <a href="multiple.php" >Choose multiple items</a></li>
-                        <li> <a href="https://totalsecuritykenya.com/">Main Site</a></li>
+           
                         <li> <a href="https://totalsecuritykenya.com/who-we-are/">About</a></li>
-                        <li> <a href="https://totalsecuritykenya.com/contact-us/">Contact</a></li>
+                        
 
 
                         <?php if(isset($_SESSION['id'])): ?>
@@ -152,12 +153,21 @@ if(isset($_SESSION['id']))
                                             <th scope="col">#</th>
                                             <th scope="col">Item</th>
                                             <th scope="col">Quantity</th>
-                                            <th scope="col">Approved</th>
-                                            <th scope="col">Issued</th>
-                                             <th colspan = "3"scope="col">Action</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action</th>
+                                            
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <?php
+                                            if (!isset($_SESSION['message']))
+                                            {
+                                                // If 'message' key doesn't exist, set it to zero
+                                                $_SESSION['message'] = 0;
+                                            }
+
+                                        ?>
+
 
                                          <?php if($_SESSION['message']=='4'): ?>
                                            <?php echo
@@ -176,8 +186,10 @@ if(isset($_SESSION['id']))
                                                   <strong>Not enough Inventory!</strong> Check with the manager.
                                                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                                 </div>' ?>
-
+                                              
                                           <?php endif;?>
+
+                                         
         
                                     <?php if(isset($_SESSION['id'])):  ?>
                                      
@@ -186,26 +198,25 @@ if(isset($_SESSION['id']))
                                                 <td><?php echo $key+1; ?> </td>
                                                 <td> <?php echo $uniqueOrder['item']; ?> </td>
                                                 <td><?php echo $uniqueOrder['quantity']; ?> </td>
-                                                <?php if($uniqueOrder['approve'] ==1):  ?>
-                                                    <td><?php echo "Yes"; ?> </td>
-                                                <?php else: ?>
-                                                    <td><?php echo "No"; ?> </td>
+
+                                                <?php if ($uniqueOrder['approve'] == 1): ?>
+                                                    <td><?php echo "Approved"; ?></td>
+                                                <?php elseif ($uniqueOrder['approve'] == 0): ?>
+                                                    <?php if ($uniqueOrder['issue'] == 1 ): ?>
+                                                        <td><?php echo "Issued"; ?></td>
+                                                    <?php elseif ($uniqueOrder['decline'] == 1): ?>
+                                                        <td><a href="reason.php?id=<?php echo $uniqueOrder['id'] ?>" class="delete btn btn-warning " role="button" >Declined</a></td>
+                                                    <?php else: ?>
+                                                        <td><?php echo "Waiting approval"; ?></td>
+                                                    <?php endif; ?>
                                                 <?php endif; ?>
-                                                 <?php if($uniqueOrder['issue'] ==1):  ?>
-                                                    <td><?php echo "Yes"; ?> </td>
-                                                <?php else: ?>
-                                                    <td><?php echo "No"; ?> </td>
-                                                <?php endif; ?>
+
                                                 <?php if($uniqueOrder['approve'] ==0):  ?>
                                                     <td><a href="index.php?deleteOrder_id=<?php echo $uniqueOrder['id'] ?>" class="delete btn btn-danger" onclick="return checkDelete()">delete</a></td>
                                                 <?php else: ?>
                                                      <td><a href="redirect.php" class="delete btn btn-info disabled" role="button" aria-disabled="true">Approved</a></td>
                                                 <?php endif; ?>
-                                                <?php if($uniqueOrder['decline'] ==1):?>
-                                                    <td><a href="reason.php?id=<?php echo $uniqueOrder['id'] ?>" class="delete btn btn-warning " role="button" >Declined</a></td>
-                                                <?php else: ?>
-                                                    <td><a href="reason.php?id=<?php echo $uniqueOrder['id'] ?>" class="delete btn btn-warning disabled" role="button" >*********</a></td>
-                                                 <?php endif; ?>
+                                               
                                             </tr>
                                          <?php endforeach; ?>
 
@@ -233,42 +244,7 @@ if(isset($_SESSION['id']))
 
                        
 
-                        <div class="card-body">
-                            <div class="table-responsive">
-                             <h3>Quantity of Items in Store</h3>
-
-                                    <table class="table table-dark">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Item</th>
-                                            <th scope="col">Quantity</th>
-                                            
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php if(isset($_SESSION['id'])):  ?>
-                                     
-                                        <?php foreach($tableStoreItems as $key=> $tableStoreItem ):?>
-                                            <tr>
-                                                <td><?php echo $key+1; ?> </td>
-                                                <td> <?php echo $tableStoreItem['item']; ?> </td>
-                                                <td><?php echo $tableStoreItem['remaining']; ?> </td>
-                                            </tr>
-                                         <?php endforeach; ?>
-
-                                     <?php endif;?>
-                                        </tbody>
-                                    </table>
-
-                                    
-
-                                    </tbody>
-
-                                </table>
-
-                            </div>
-                        </div>
+                     
                     </div>
                 </div>
                 </div>

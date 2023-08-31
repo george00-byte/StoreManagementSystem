@@ -57,8 +57,8 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
         <!--Admin content-->
         <div class="admin-content">
             <div class="button-group">
-                <a href="index.php" class="btn btn-big">Manage</a>
-                 <a href="decline.php?id=<?php echo $requisition['id']?>" class="btn btn-big">Decline</a>
+                <a href="index.php" class="btn btn-big" >Manage</a>
+                
             </div>
 
             <div class="content">
@@ -100,7 +100,7 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
 
                     <div>
                         <label>Quantity</label>
-                         <input type="text" name="quantity" id="subject" readonly  class="text-input" value="<?php echo $quantity; ?>" />
+                         <input type="text" name="quantity" id="subject"  class="text-input" value="<?php echo $quantity; ?>" />
                     </div>
 
 
@@ -108,6 +108,12 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
                         <label>Department/ Checked By</label>
                          <input type="text" name="department" id="subject" readonly class="text-input" value="<?php echo $department; ?>" />
 
+                    </div>
+
+
+                    <div>
+                        <label>Requested BY</label>
+                         <input type="text" name="orderdBy" id="subject"  class="text-input" value="<?php echo $orderdBy; ?>" />
                     </div>
 
 
@@ -123,28 +129,21 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
 
                     <div>
                        
-                        <label>
 
-                            <?php if($approved == 1): ?>
-                                <input type="checkbox" name="approve" checked >
-                                Approve
-                            <?php else: ?>
-                                <input type="checkbox" name="approve"  >
-                                Approve
-
-                            <?php endif; ?>
-
-                        </label>
+                     
 
 
                     </div>
 
                     <div>
-                        <button name="approve-inventory" class="btn btn-big">Approve Inventory</button>
+                        <button name="approve-inventory" onclick="return confirm('Are you sure?')" class="btn btn-big">Approve Inventory</button>
 
                     </div>
+                 
+                    <div>
 
-
+                     <a href="decline.php?id=<?php echo $requisition['id']?>"   class="btn btn-big" >Decline</a>
+                    </div>
 
                 </form>
 
@@ -168,6 +167,12 @@ include(ROOT_PATH.'/app/helpers/middleware.php');
 
     <!--Custom Script-->
     <script src="../../assets/js/index.js"></script>
+
+     <script language="JavaScript" type="text/javascript">
+    function checkDelete(){
+        return confirm('Are you sure?');
+    }
+    </script>
 
 
 

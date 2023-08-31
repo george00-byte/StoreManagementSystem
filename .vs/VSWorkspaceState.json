@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Admin",
-    "\\Admin\\store",
-    "\\app",
-    "\\assets"
+    "\\vendor\\dompdf"
   ],
-  "SelectedNode": "\\Admin\\store\\index.php",
   "PreviewInSolutionExplorer": false
 }

@@ -67,4 +67,18 @@ function managerOnly($redirect= "/index.php")
 
 
 
+
+function printOnly($redirect= "/index.php")
+{
+	if($_SESSION['admin']!==3)
+	{
+		$_SESSION['message']="You are not authorised";
+		$_SESSION['type']="error";
+
+		header('location: '.BASE_URL.$redirect);
+		exit(0);
+	}
+}
+
+
 ?>

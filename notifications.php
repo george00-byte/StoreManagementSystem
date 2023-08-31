@@ -77,10 +77,10 @@ if(isset($_SESSION['id']))
 
                     <ul id="nav-menu" class="ls-sticky">
                         <li> <a href="index.php" class="active">Home</a></li>
-                        <li> <a href="multiple.php" >Choose multiple items</a></li>
-                        <li> <a href="https://totalsecuritykenya.com/">Main Site</a></li>
+                        <li> <a href="multiple.php" >Request multiple items</a></li>
+                      
                         <li> <a href="https://totalsecuritykenya.com/who-we-are/">About</a></li>
-                        <li> <a href="https://totalsecuritykenya.com/contact-us/">Contact</a></li>
+                       
                     
 
                         <?php if(isset($_SESSION['id'])): ?>

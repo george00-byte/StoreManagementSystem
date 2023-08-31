@@ -20,6 +20,8 @@ $item ='';
 $total ='';
 $add="";
 $remaining="";
+$alert="";
+
 
 
 
@@ -32,6 +34,7 @@ if(isset($_GET['id']))
     $total=$item['total'];
     $remaining = $item['remaining'];
     $item =$item['item'];
+  
    
      
 }
@@ -83,6 +86,18 @@ if(isset($_POST['add-inventory']))
 
     }
     
+}
+
+
+if(isset($_POST['add_alert']))
+{
+   $id=$_POST['id']; 
+   unset($_POST['add_alert'],$_POST['id']);
+   $count = update($tableStore,$id,$_POST);
+   
+   header('location: '.BASE_URL."/Admin/store/index.php");
+   exit();
+
 }
 
 

@@ -10,5 +10,13 @@
                          <li><a href="<?php echo BASE_URL."/Admin/store/department.php"  ?>">Departments</a></li>
                     <?php endif; ?>
 
+                    <?php if($_SESSION['admin']=== 3): ?>
+                         <li><a href="<?php echo BASE_URL."/Admin/store/viewRemainingOnly.php" ?>" >Remaining in store</a></li>
+                         <li><a href="<?php echo BASE_URL."/Admin/store/viewOnly.php"  ?>">Requisitions</a></li>
+
+                    <?php endif; ?>
+
+
+
             </ul>
 </div>

@@ -5,6 +5,23 @@ include(ROOT_PATH."/app/controllers/requisition.php");
 include(ROOT_PATH.'/app/helpers/middleware.php');
 managerOnly();
 
+if(isset($_GET["sort"]))
+{
+    $requisitionInDept=$requisitionInDeptDesc;
+}
+elseif(isset($_GET['search-term']))
+{
+     $requisitionInDept=searchTermDept($_SESSION['department'],$_GET['search-term']);
+}
+elseif(isset($_GET['pending']))
+{
+     $requisitionInDept=$requisitionInDeptPending;
+}
+
+else 
+{
+	$requisitionInDept=$requisitionInDept;
+}
 
 
 
@@ -60,7 +77,7 @@ managerOnly();
         <!--Admin content-->
         <div class="admin-content">
             <div class="button-group">
-                <a href="index.php" class="btn btn-big">Manage </a>
+                <a href="index.php" class="btn btn-big"  >Manage </a>
             </div>
 
             <div class="content">
@@ -69,9 +86,21 @@ managerOnly();
 
                  <!--Succes message-->
                       <?php include(ROOT_PATH."/app/includes/messages.php"); ?>
-                    <!--// Succes message-->
+                 <!--// Succes message-->
 
                 <div class="table-responsive">
+                    
+                          <form class="button-group" method="get" action="index.php">
+                              <input type="text" name="search-term" class="text-input" placeholder="search.. date in format 2000-07-14" />  <br>
+                          </form> 
+                            
+                          <form class="button-group" method="get" action="index.php">
+                                <button class="btn btn-big"  name="sort" >Sort</button>
+                          </form>  <br>
+                         
+                           <form class="button-group" method="get" action="index.php">
+                                <button class="btn btn-big"  name="pending" >Pending</button>
+                          </form>
 
                     <table>
                         <thead>
@@ -81,12 +110,12 @@ managerOnly();
                                 <th>Quantity</th>
                                 <th>Department</th>
                                 <th>Date</th>
-                                <th>Approved</th>
-                                <th>orderedBy</th>
-                                <th>Declined</th>
-                               
+                                <th>ID</th>
+                                <th>Document</th>
+                                <th>Requested By</th>
                                 
-                                <th colspan="2">Action</th>
+                               
+                                <th colspan="2">Status</th>
                             </tr>
                         </thead>
 
@@ -96,34 +125,25 @@ managerOnly();
                             <tr>
 
                                 <td><?php echo $key+1 ?> </td>
-                            
+        
                                 <td><?php echo $requisition['item']?> </td>
                                 <td><?php echo $requisition['quantity']?> </td>
                                 <td><?php echo $requisition['department']?> </td>
-                                <td><?php echo date('F j, Y', strtotime($requisition['created-at'])); ?> </td>
-                                
-                                 <?php if($requisition['approve'] == 1): ?>
-                                    <td><?php echo "Yes"?> </td>
-                                        <?php else: ?>
-                                    <td><?php echo "No"?> </td>
-                                <?php endif; ?>
-                                 <td><?php echo $requisition['orderdBy']?> </td>
-                                  <?php if($requisition['decline'] == 1): ?>
-                                    <td class="delete"><?php echo "Declined"?> </td>
-                                        <?php else: ?>
-                                    <td class="delete"><?php echo "No"?> </td>
-                                <?php endif; ?>
+                                <td><?php echo date('F j, Y', strtotime($requisition['created_at'])); ?> </td>
+                                <td><?php echo $requisition['finalId']?> </td>
 
-                                <?php if( $requisition['approve'] == 1): ?>
-                                   <td><a href="edit.php?id=<?php echo $requisition['id'] ?>" class="edit">Approved</a></td>
+                                <td><a  target=”_blank” href="pdfdownload.php?document=<?php echo $requisition['document'] ?>" class="edit"><?php echo $requisition['document'] ?></a></td>
 
-                                <?php elseif($requisition['approve'] == 0):?>
-                                    <td><a href="edit.php?id=<?php echo $requisition['id'] ?>" class="edit">Pending</a></td>
-
+                                <?php if ($requisition['approve'] == 1): ?>
+                                    <td><a href="edit.php?id=<?php echo $requisition['id'] ?>" class="edit">Approved</a></td>
+                                <?php elseif ($requisition['approve'] == 0 && $requisition['decline'] == 0): ?>
+                                    <td><a href="edit.php?id=<?php echo $requisition['id'] ?>" class="edit">View</a></td>
+                                <?php elseif ($requisition['decline'] == 1): ?>
+                                    <td><a href="edit.php?id=<?php echo $requisition['id'] ?>" class="edit">Declined</a></td>
                                 <?php endif; ?>
 
                                 <?php if($requisition['issue'] == 0):?>
-                                    <td><a href="index.php?del_id=<?php echo $requisition['id'] ?>" onclick="return confirm('Are you sure?')" class="delete" >delete</a></td>
+                                    <td><a href="index.php" class="delete" >Waiting Issuance</a></td>
                                     <?php else: ?>
                                     <td><a href="index.php"  class="delete" >Issued</a></td>
                                 <?php endif; ?>
